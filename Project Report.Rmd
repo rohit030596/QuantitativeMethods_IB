@@ -21,9 +21,11 @@ output: pdf_document
 5. Control Variables and there importances--- refer to articles
     a. CPI b. unemployability c. disposable income d. consumer confidence 
 Talk about all sections of paper- what's done in which section.
+
 ### Data Collection and preprocessing 
 safegraph
 statista.ca 
+Python/ R preprocessing
 
 ### EDA
 
