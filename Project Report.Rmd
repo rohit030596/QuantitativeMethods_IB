@@ -5,15 +5,32 @@ date: "14/03/2022"
 output: pdf_document
 ---
 ### Introduction 
+In this study, we have evaluated the impact of weather on retail sales in the major cities of Canada. We leveraged the data of 3 major retail players- Walmart, Costco and The Wholesale Food for analysing how the weather affects thei retail sales.  
+1.Role of Data 
+It is difficult to anticipate daily weather in advance but it has an immediate impact on daily business and sales.The use of weather forecasts to reduce demand uncertainty is restricted to retailers able to adjust their supply chain activities within two weeks. Retail sales being the downstream component of supply chain has 
+
+1.1 Seasonality
+Weather such as precipitation(snow and rain) can significantly influence shopper's decision. It is obscure how consumer will react to weather conditions, The shoppers may choose to use good weather as a reason for engaging in outdoor activities and thus postpone or forgo purchases. On the other hand they might consider shopping in clear and sunny weather. #Brick and Mortar
+Holiday season can have pos
+      
+1.2. Psychological Effect
+People in good mood are more likely to spend more money and self reward themselves.Weather can have negative effect on an individual's mood. 
+Bad weather can have a negative psychological impact on shopper's willingness to visit retail stores. It might cause them to shop online or postpone the plan of shopping.  #BrickandMortar. Psychological effects may lead to a change in shopping habits, e.g., bulk buying to hoard supplies. For example, lower prices during an extreme weather occurrence might trigger stock-ups (Gauri et al., 2017). Lower prices during extreme weather occurrences are common in retail settings (Beutel and Minner, 2012). It has been shown that the weather at the time of purchase heavily affects customers’ decisions for purchases, e.g., advance sales of outdoor events, when the weather at the time of purchase should be irrelevant. 
+
+=======
 1.Role of Weather 
   1.1. Seasonality  
   1.2. Psychological Effect
 
 ### Objective
-1.Impact of Weather on Retail Sales in 3 major Canadian cities. 
+The objective of this research paper is to analyze the impact of weather on retail sales in 3 major Canadian cities- Montreal, Toronto and Vancouver. 
 2. Footfall is our proxy variable.
+We are assessing the retail sales through the footfall data of stores which acts as our proxy variable. (Graham, 2017; Makkar, 2020). 
+
 3. Weather Variables -> snow, precipitation, sunlight
 ### Literature Review
+Weather impact on retail sales has been studied for more than 50 years now (Steele, 1951), but still there are only a handful of studies that provide sophisticated econometric analysis of weather effect. Starr-McCluer (2000) examined the effects of temperature on total US retail sales. #
+
 1. Past Articles -1.1 and 1.2
 2. How our research is novel?
 3. How footfall is related to Sales?
