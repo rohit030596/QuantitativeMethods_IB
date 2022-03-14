@@ -5,8 +5,10 @@ date: "14/03/2022"
 output: pdf_document
 ---
 ### Introduction 
+In this study, we have evaluated the impact o
 1.Role of Data 
-  1.1. Seasonality  
+  1.1. Seasonality
+        
   1.2. Psychological Effect
 
 ### Objective
