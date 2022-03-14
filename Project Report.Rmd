@@ -100,12 +100,16 @@ my_data <- my_data %>% replace_na(list(spd_max_gust=0))
 
 
 ### Modelling
-
-if (!require("plm")) install.packages("plm")
+```{r}
 library(plm)
-base_model_random <- plm(visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + unemployability, data = my_data, index = c("postal_code", "date"), model = "random")
+base_model_random <- plm(visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + unemployability, data = my_data, index = c("postal_code", "date"), model = "within")
 summary(base_model_random)
 
+
+lm.full = lm(visits_by_day ~ ., data = my_data[,2:13])
+lm.step = step(lm.full, direction = "backward")
+summary(lm.step)
+```
 ### Results
 
 
