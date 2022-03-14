@@ -1,0 +1,37 @@
+---
+title: "Project-QM"
+author: "Karan, Rohit, Shubham"
+date: "14/03/2022"
+output: pdf_document
+---
+### Introduction 
+1.Role of Data 
+  1.1. Seasonality  
+  1.2. Psychological Effect
+
+### Objective
+1.Impact of Weather on Retail Sales in 3 major Canadian cities. 
+2. Footfall is our proxy variable.
+3. Weather Variables -> snow, precipitation, sunlight
+### Literature Review
+1. Past Articles -1.1 and 1.2
+2. How our research is novel?
+3. How footfall is related to Sales?
+4. Hypotheses : 3/4 depending on independent variables.
+5. Control Variables and there importances--- refer to articles
+    a. CPI b. unemployability c. disposable income d. consumer confidence 
+Talk about all sections of paper- what's done in which section.
+### Data Collection and preprocessing 
+safegraph
+statista.ca 
+
+### EDA
+
+
+### Modelling
+
+
+### Results
+
+
+### Conclusion
