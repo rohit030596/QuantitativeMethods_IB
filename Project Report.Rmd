@@ -87,13 +87,24 @@ df_footfall <- df_footfall %>% select(Date, visits_by_day, region, postal_code) 
 data <- merge(df_footfall, df_weather, by = c("postal_code", "date"))
 data <- data %>% separate(date, c("Year", "Month", "Day"))
 data <- merge(data, df_control, by = c("region", "Year", "Month"), all.x = TRUE) #data is the final data for modelling
-```
 
+
+data$date = str_c(data$Day,"-",data$Month,"-",data$Year)
+data=data %>% relocate(date,.before=visits_by_day)
+my_data=data[,6:18]
+my_data$postal_code=data$postal_code
+my_data <- my_data %>% replace_na(list(spd_max_gust=0))
+```
+#pre-holday, post holiday, day of the week, long weekend
 ### EDA
 
 
 ### Modelling
 
+if (!require("plm")) install.packages("plm")
+library(plm)
+base_model_random <- plm(visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + unemployability, data = my_data, index = c("postal_code", "date"), model = "random")
+summary(base_model_random)
 
 ### Results
 
