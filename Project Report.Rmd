@@ -105,10 +105,40 @@ library(plm)
 base_model_random <- plm(visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + unemployability, data = my_data, index = c("postal_code", "date"), model = "within")
 summary(base_model_random)
 
+data <- data %>% replace_na(list(spd_max_gust=0))
+data <- data %>% replace_na(list(snow_grnd = 0))
+data <- data %>% replace_na(list(total_rain = 0))
+data <- data %>% replace_na(list(total_snow = 0))
+data <- data %>% replace_na(list(total_precip = 0))
+data <- data %>% replace_na(list(visits_by_day = 0))
 
-lm.full = lm(visits_by_day ~ ., data = my_data[,2:13])
+my_data <- data %>% group_by(postal_code, Year, Month) %>% summarize(visits_by_day = sum(visits_by_day),
+                                                                     mean_temp = mean(mean_temp),
+                                                                     ConsumerConfidence = mean(ConsumerConfidence),
+                                                                     cpi = mean(cpi),
+                                                                     disposableIncome = mean(disposableIncome),
+                                                                     unemployability = mean(unemployability),
+                                                                     total_snow = sum(total_snow),
+                                                                     total_rain = sum(total_rain),
+                                                                     total_precip = sum(total_precip),
+                                                                     snow_grnd = mean(snow_grnd),
+                                                                     spd_max_gust = mean(spd_max_gust)
+                                                                     )
+
+lm.full = lm(visits_by_day ~ ., data = my_data[,4:13])
 lm.step = step(lm.full, direction = "backward")
 summary(lm.step)
+
+test_data <- read.csv("Data/testing.csv")
+lm.full = lm(value ~ ., data = test_data[,3:10])
+lm.step = step(lm.full, direction = "backward")
+summary(lm.step)
+
+test_model_random <- plm(value ~ mean_temp + total_rain + total_snow, data = test_data, index = c("prov","Date"), model = "within")
+summary(test_model_random)
+
+test_model <- lm(value ~ max_temp + total_rain + total_snow , data=test_data)
+summary(test_model)
 ```
 ### Results
 
