@@ -1,0 +1,549 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Project-QM},
+  pdfauthor={Karan, Rohit, Shubham},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Project-QM}
+\author{Karan, Rohit, Shubham}
+\date{14/03/2022}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\subsubsection{Introduction}\label{introduction}}
+
+In this study, we have evaluated the impact of weather on retail sales
+in the major cities of Canada. We leveraged the data of 3 major retail
+players- Walmart, Costco and The Wholesale Food for analysing how the
+weather affects thei retail sales.\\
+1.Role of Data It is difficult to anticipate daily weather in advance
+but it has an immediate impact on daily business and sales.The use of
+weather forecasts to reduce demand uncertainty is restricted to
+retailers able to adjust their supply chain activities within two weeks.
+Retail sales being the downstream component of supply chain has
+
+1.1 Seasonality Weather such as precipitation(snow and rain) can
+significantly influence shopper's decision. It is obscure how consumer
+will react to weather conditions, The shoppers may choose to use good
+weather as a reason for engaging in outdoor activities and thus postpone
+or forgo purchases. On the other hand they might consider shopping in
+clear and sunny weather. \#Brick and Mortar Holiday season can have pos
+
+1.2. Psychological Effect People in good mood are more likely to spend
+more money and self reward themselves.Weather can have negative effect
+on an individual's mood. Bad weather can have a negative psychological
+impact on shopper's willingness to visit retail stores. It might cause
+them to shop online or postpone the plan of shopping. \#BrickandMortar.
+Psychological effects may lead to a change in shopping habits, e.g.,
+bulk buying to hoard supplies. For example, lower prices during an
+extreme weather occurrence might trigger stock-ups (Gauri et al., 2017).
+Lower prices during extreme weather occurrences are common in retail
+settings (Beutel and Minner, 2012). It has been shown that the weather
+at the time of purchase heavily affects customers' decisions for
+purchases, e.g., advance sales of outdoor events, when the weather at
+the time of purchase should be irrelevant.
+
+======= 1.Role of Weather 1.1. Seasonality\\
+1.2. Psychological Effect
+
+\hypertarget{objective}{%
+\subsubsection{Objective}\label{objective}}
+
+The objective of this research paper is to analyze the impact of weather
+on retail sales in 3 major Canadian cities- Montreal, Toronto and
+Vancouver. 2. Footfall is our proxy variable. We are assessing the
+retail sales through the footfall data of stores which acts as our proxy
+variable. (Graham, 2017; Makkar, 2020).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  Weather Variables -\textgreater{} snow, precipitation, sunlight \#\#\#
+  Literature Review Weather impact on retail sales has been studied for
+  more than 50 years now (Steele, 1951), but still there are only a
+  handful of studies that provide sophisticated econometric analysis of
+  weather effect. Starr-McCluer (2000) examined the effects of
+  temperature on total US retail sales. \#
+\item
+  Past Articles -1.1 and 1.2
+\item
+  How our research is novel?
+\item
+  How footfall is related to Sales?
+\item
+  Hypotheses : 3/4 depending on independent variables.
+\item
+  Control Variables and there importances--- refer to articles
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii}.}
+  \tightlist
+  \item
+    CPI b. unemployability c.~disposable income d.~consumer confidence
+    Talk about all sections of paper- what's done in which section.
+  \end{enumerate}
+\end{enumerate}
+
+\hypertarget{data-collection-and-preprocessing}{%
+\subsubsection{Data Collection and
+preprocessing}\label{data-collection-and-preprocessing}}
+
+safegraph statista.ca Python/ R preprocessing
+
+\hypertarget{data-preperation}{%
+\section{Data Preperation}\label{data-preperation}}
+
+\#pre-holday, post holiday, day of the week, long weekend \#\#\# EDA
+
+\hypertarget{modelling}{%
+\subsubsection{Modelling}\label{modelling}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(plm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'plm'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     between, lag, lead
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{base\_model\_random }\OtherTok{\textless{}{-}} \FunctionTok{plm}\NormalTok{(visits\_by\_day }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ConsumerConfidence }\SpecialCharTok{+}\NormalTok{ cpi }\SpecialCharTok{+}\NormalTok{ disposableIncome }\SpecialCharTok{+}\NormalTok{ unemployability, }\AttributeTok{data =}\NormalTok{ my\_data, }\AttributeTok{index =} \FunctionTok{c}\NormalTok{(}\StringTok{"postal\_code"}\NormalTok{, }\StringTok{"date"}\NormalTok{), }\AttributeTok{model =} \StringTok{"within"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(base\_model\_random)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Oneway (individual) effect Within Model
+## 
+## Call:
+## plm(formula = visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + 
+##     unemployability, data = my_data, model = "within", index = c("postal_code", 
+##     "date"))
+## 
+## Unbalanced Panel: n = 17, T = 637-1022, N = 16975
+## 
+## Residuals:
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -5828.826  -414.946   -81.273   364.350 20482.798 
+## 
+## Coefficients:
+##                       Estimate  Std. Error t-value  Pr(>|t|)    
+## ConsumerConfidence  -2.4034141   0.5196546 -4.6250 3.773e-06 ***
+## cpi                -56.4643256   7.9743164 -7.0808 1.490e-12 ***
+## disposableIncome     0.0565051   0.0021907 25.7927 < 2.2e-16 ***
+## unemployability     -0.3052353   0.0772846 -3.9495 7.863e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    2.3075e+10
+## Residual Sum of Squares: 2.1591e+10
+## R-Squared:      0.064286
+## Adj. R-Squared: 0.063182
+## F-statistic: 291.194 on 4 and 16954 DF, p-value: < 2.22e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{spd\_max\_gust=}\DecValTok{0}\NormalTok{))}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{snow\_grnd =} \DecValTok{0}\NormalTok{))}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{total\_rain =} \DecValTok{0}\NormalTok{))}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{total\_snow =} \DecValTok{0}\NormalTok{))}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{total\_precip =} \DecValTok{0}\NormalTok{))}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{visits\_by\_day =} \DecValTok{0}\NormalTok{))}
+
+\NormalTok{my\_data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(postal\_code, Year, Month) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarize}\NormalTok{(}\AttributeTok{visits\_by\_day =} \FunctionTok{sum}\NormalTok{(visits\_by\_day),}
+                                                                     \AttributeTok{mean\_temp =} \FunctionTok{mean}\NormalTok{(mean\_temp),}
+                                                                     \AttributeTok{ConsumerConfidence =} \FunctionTok{mean}\NormalTok{(ConsumerConfidence),}
+                                                                     \AttributeTok{cpi =} \FunctionTok{mean}\NormalTok{(cpi),}
+                                                                     \AttributeTok{disposableIncome =} \FunctionTok{mean}\NormalTok{(disposableIncome),}
+                                                                     \AttributeTok{unemployability =} \FunctionTok{mean}\NormalTok{(unemployability),}
+                                                                     \AttributeTok{total\_snow =} \FunctionTok{sum}\NormalTok{(total\_snow),}
+                                                                     \AttributeTok{total\_rain =} \FunctionTok{sum}\NormalTok{(total\_rain),}
+                                                                     \AttributeTok{total\_precip =} \FunctionTok{sum}\NormalTok{(total\_precip),}
+                                                                     \AttributeTok{snow\_grnd =} \FunctionTok{mean}\NormalTok{(snow\_grnd),}
+                                                                     \AttributeTok{spd\_max\_gust =} \FunctionTok{mean}\NormalTok{(spd\_max\_gust)}
+\NormalTok{                                                                     )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'postal_code', 'Year'. You can override
+## using the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm.full }\OtherTok{=} \FunctionTok{lm}\NormalTok{(visits\_by\_day }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ my\_data[,}\DecValTok{4}\SpecialCharTok{:}\DecValTok{13}\NormalTok{])}
+\NormalTok{lm.step }\OtherTok{=} \FunctionTok{step}\NormalTok{(lm.full, }\AttributeTok{direction =} \StringTok{"backward"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Start:  AIC=12866.12
+## visits_by_day ~ mean_temp + ConsumerConfidence + cpi + disposableIncome + 
+##     unemployability + total_snow + total_rain + total_precip + 
+##     snow_grnd
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - disposableIncome    1 3.6830e+08 1.5719e+12 12864
+## - unemployability     1 1.7207e+09 1.5732e+12 12865
+## - total_precip        1 2.9115e+09 1.5744e+12 12865
+## - ConsumerConfidence  1 3.3888e+09 1.5749e+12 12865
+## - total_rain          1 3.8231e+09 1.5753e+12 12866
+## <none>                             1.5715e+12 12866
+## - total_snow          1 6.9868e+09 1.5785e+12 12867
+## - snow_grnd           1 1.6028e+10 1.5875e+12 12870
+## - mean_temp           1 2.0958e+10 1.5924e+12 12872
+## - cpi                 1 4.9716e+10 1.6212e+12 12883
+## 
+## Step:  AIC=12864.26
+## visits_by_day ~ mean_temp + ConsumerConfidence + cpi + unemployability + 
+##     total_snow + total_rain + total_precip + snow_grnd
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - total_precip        1 3.0849e+09 1.5749e+12 12863
+## - ConsumerConfidence  1 4.0828e+09 1.5759e+12 12864
+## - total_rain          1 4.1208e+09 1.5760e+12 12864
+## <none>                             1.5719e+12 12864
+## - total_snow          1 6.9641e+09 1.5788e+12 12865
+## - snow_grnd           1 1.5817e+10 1.5877e+12 12868
+## - mean_temp           1 2.1039e+10 1.5929e+12 12870
+## - unemployability     1 3.9336e+10 1.6112e+12 12877
+## - cpi                 1 7.6842e+10 1.6487e+12 12890
+## 
+## Step:  AIC=12863.42
+## visits_by_day ~ mean_temp + ConsumerConfidence + cpi + unemployability + 
+##     total_snow + total_rain + snow_grnd
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - total_rain          1 1.4034e+09 1.5763e+12 12862
+## - ConsumerConfidence  1 3.6786e+09 1.5786e+12 12863
+## - total_snow          1 4.2897e+09 1.5792e+12 12863
+## <none>                             1.5749e+12 12863
+## - snow_grnd           1 1.5572e+10 1.5905e+12 12867
+## - mean_temp           1 1.9232e+10 1.5942e+12 12869
+## - unemployability     1 3.6425e+10 1.6114e+12 12875
+## - cpi                 1 7.5283e+10 1.6502e+12 12889
+## 
+## Step:  AIC=12861.95
+## visits_by_day ~ mean_temp + ConsumerConfidence + cpi + unemployability + 
+##     total_snow + snow_grnd
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - ConsumerConfidence  1 3.5392e+09 1.5799e+12 12861
+## - total_snow          1 4.0712e+09 1.5804e+12 12862
+## <none>                             1.5763e+12 12862
+## - snow_grnd           1 1.4497e+10 1.5908e+12 12865
+## - mean_temp           1 1.8454e+10 1.5948e+12 12867
+## - unemployability     1 3.6625e+10 1.6130e+12 12874
+## - cpi                 1 7.3905e+10 1.6502e+12 12887
+## 
+## Step:  AIC=12861.28
+## visits_by_day ~ mean_temp + cpi + unemployability + total_snow + 
+##     snow_grnd
+## 
+##                   Df  Sum of Sq        RSS   AIC
+## - total_snow       1 3.3969e+09 1.5833e+12 12861
+## <none>                          1.5799e+12 12861
+## - snow_grnd        1 1.2474e+10 1.5924e+12 12864
+## - mean_temp        1 1.5999e+10 1.5959e+12 12865
+## - unemployability  1 4.6938e+10 1.6268e+12 12877
+## - cpi              1 7.0801e+10 1.6507e+12 12885
+## 
+## Step:  AIC=12860.55
+## visits_by_day ~ mean_temp + cpi + unemployability + snow_grnd
+## 
+##                   Df  Sum of Sq        RSS   AIC
+## <none>                          1.5833e+12 12861
+## - mean_temp        1 1.3260e+10 1.5965e+12 12864
+## - snow_grnd        1 2.3778e+10 1.6071e+12 12867
+## - unemployability  1 5.0480e+10 1.6338e+12 12877
+## - cpi              1 7.0689e+10 1.6540e+12 12884
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(lm.step)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = visits_by_day ~ mean_temp + cpi + unemployability + 
+##     snow_grnd, data = my_data[, 4:13])
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -85945 -40444 -17109  28471 171283 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     718249.586 133670.238   5.373 1.12e-07 ***
+## mean_temp          639.199    288.292   2.217  0.02699 *  
+## cpi              -5353.926   1045.820  -5.119 4.16e-07 ***
+## unemployability      6.135      1.418   4.326 1.78e-05 ***
+## snow_grnd         1044.792    351.882   2.969  0.00311 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 51930 on 587 degrees of freedom
+##   (3 observations deleted due to missingness)
+## Multiple R-squared:  0.08057,    Adjusted R-squared:  0.0743 
+## F-statistic: 12.86 on 4 and 587 DF,  p-value: 4.843e-10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Data/testing.csv"}\NormalTok{)}
+\NormalTok{lm.full }\OtherTok{=} \FunctionTok{lm}\NormalTok{(value }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ test\_data[,}\DecValTok{3}\SpecialCharTok{:}\DecValTok{10}\NormalTok{])}
+\NormalTok{lm.step }\OtherTok{=} \FunctionTok{step}\NormalTok{(lm.full, }\AttributeTok{direction =} \StringTok{"backward"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Start:  AIC=11013.75
+## value ~ max_temp + mean_temp + min_temp + spd_max_gust + total_precip + 
+##     total_rain + total_snow
+## 
+##                Df  Sum of Sq        RSS   AIC
+## - spd_max_gust  1 7.9276e+11 4.5679e+14 11012
+## <none>                       4.5600e+14 11014
+## - mean_temp     1 3.5671e+12 4.5957e+14 11015
+## - max_temp      1 6.7372e+12 4.6274e+14 11018
+## - min_temp      1 7.9528e+12 4.6395e+14 11019
+## - total_snow    1 1.7101e+14 6.2701e+14 11138
+## - total_precip  1 1.8573e+14 6.4173e+14 11147
+## - total_rain    1 2.3401e+14 6.9001e+14 11176
+## 
+## Step:  AIC=11012.44
+## value ~ max_temp + mean_temp + min_temp + total_precip + total_rain + 
+##     total_snow
+## 
+##                Df  Sum of Sq        RSS   AIC
+## <none>                       4.5679e+14 11012
+## - mean_temp     1 3.5401e+12 4.6033e+14 11014
+## - max_temp      1 6.9012e+12 4.6369e+14 11016
+## - min_temp      1 7.8021e+12 4.6460e+14 11017
+## - total_snow    1 1.7223e+14 6.2902e+14 11137
+## - total_precip  1 1.8495e+14 6.4174e+14 11145
+## - total_rain    1 2.3476e+14 6.9155e+14 11175
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(lm.step)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = value ~ max_temp + mean_temp + min_temp + total_precip + 
+##     total_rain + total_snow, data = test_data[, 3:10])
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3365753  -683300  -216486   395390  4807943 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  2732523.26  513290.01   5.324 1.72e-07 ***
+## max_temp      -36584.59   15091.05  -2.424   0.0158 *  
+## mean_temp      41667.21   23997.75   1.736   0.0833 .  
+## min_temp      -29268.23   11354.67  -2.578   0.0103 *  
+## total_precip     555.97      44.30  12.550  < 2e-16 ***
+## total_rain      -864.41      61.14 -14.139  < 2e-16 ***
+## total_snow      -924.27      76.32 -12.111  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1084000 on 389 degrees of freedom
+## Multiple R-squared:  0.4403, Adjusted R-squared:  0.4317 
+## F-statistic: 51.01 on 6 and 389 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_model\_random }\OtherTok{\textless{}{-}} \FunctionTok{plm}\NormalTok{(value }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mean\_temp }\SpecialCharTok{+}\NormalTok{ total\_rain }\SpecialCharTok{+}\NormalTok{ total\_snow, }\AttributeTok{data =}\NormalTok{ test\_data, }\AttributeTok{index =} \FunctionTok{c}\NormalTok{(}\StringTok{"prov"}\NormalTok{,}\StringTok{"Date"}\NormalTok{), }\AttributeTok{model =} \StringTok{"within"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(test\_model\_random)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Oneway (individual) effect Within Model
+## 
+## Call:
+## plm(formula = value ~ mean_temp + total_rain + total_snow, data = test_data, 
+##     model = "within", index = c("prov", "Date"))
+## 
+## Balanced Panel: n = 3, T = 132, N = 396
+## 
+## Residuals:
+##     Min.  1st Qu.   Median  3rd Qu.     Max. 
+## -1965617  -470003  -131930   392193  3753106 
+## 
+## Coefficients:
+##              Estimate Std. Error t-value Pr(>|t|)  
+## mean_temp  14025.7966  7954.2738  1.7633  0.07863 .
+## total_rain    18.0534     9.6786  1.8653  0.06289 .
+## total_snow    52.6931    44.2409  1.1910  0.23436  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Total Sum of Squares:    2.7805e+14
+## Residual Sum of Squares: 2.7241e+14
+## R-Squared:      0.020289
+## Adj. R-Squared: 0.0077281
+## F-statistic: 2.69213 on 3 and 390 DF, p-value: 0.045927
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(value }\SpecialCharTok{\textasciitilde{}}\NormalTok{ max\_temp }\SpecialCharTok{+}\NormalTok{ total\_rain }\SpecialCharTok{+}\NormalTok{ total\_snow , }\AttributeTok{data=}\NormalTok{test\_data)}
+\FunctionTok{summary}\NormalTok{(test\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = value ~ max_temp + total_rain + total_snow, data = test_data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2154453  -925505  -223686   631443  4809900 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 4918431.76  378097.41  13.008  < 2e-16 ***
+## max_temp     -37008.35   11528.71  -3.210  0.00144 ** 
+## total_rain     -104.70      11.56  -9.057  < 2e-16 ***
+## total_snow     -292.59      57.90  -5.054 6.66e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1281000 on 392 degrees of freedom
+## Multiple R-squared:  0.2115, Adjusted R-squared:  0.2054 
+## F-statistic: 35.04 on 3 and 392 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\hypertarget{results}{%
+\subsubsection{Results}\label{results}}
+
+\hypertarget{conclusion}{%
+\subsubsection{Conclusion}\label{conclusion}}
+
+\end{document}
