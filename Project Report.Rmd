@@ -45,113 +45,214 @@ statista.ca
 Python/ R preprocessing
 
 # Data Preperation
+
+## Part 1: Analysis of Monthly Retail Sales of Quebec, Ontario, and British columbia for the clothing and fashion industry
+
 ```{r, error=FALSE, include=FALSE}
 #Import Libraries
 library(tidyverse)
 library(readxl)
-
-df_cpi = read_excel("Data/controlVariables.xlsx", sheet= "CPI Index") #CPI Index
-df_unemployability = read_excel("Data/controlVariables.xlsx", sheet= "UnemploymentRate") #Unemployability
-df_income =  read_excel("Data/controlVariables.xlsx", sheet= "DisposableIncome")%>%
-  select(Date, `British Columbia`, Ontario, Quebec) #Disposable Income
-df_cc =  read_excel("Data/controlVariables.xlsx", sheet= "ConsumerConfidence") #Consumer Confidence
-
-df_footfall = read.csv("Data/footfallFinal.csv") #Footfall data
-df_weather = read.csv("Data/weatherDataFinal.csv")# Weather data
-
-#Select only the required fields and change the formatting of the control variables to fit a panel data structure
-df_weather <- df_weather %>% 
-              select(date, max_temp, mean_temp, snow_grnd, 
-                     spd_max_gust, total_rain,total_snow, total_precip, postal_code)
-
-df_cpi <- df_cpi %>% pivot_longer(!Date, names_to = "region", values_to = "cpi")
-df_unemployability <- df_unemployability %>% pivot_longer(!Date, names_to = "region", values_to = "unemployability")
-df_income <- df_income %>% pivot_longer(!Date, names_to = "region", values_to = "disposableIncome")
-df_cc <- df_cc %>% pivot_longer(!Date, names_to = "region", values_to = "ConsumerConfidence")
-
-#Preparing data in the right format to combine them
-df_cpi <- df_cpi %>% separate(Date, c("Year", "Month"))
-df_unemployability <- df_unemployability %>% separate(Date, c("Year", "Month"))
-df_income <- df_income %>% rename(Year = Date)
-df_cc <- df_cc %>% separate(Date, c("Year", "Month"))
-
-df_control <- merge(df_cc, df_cpi, by = c("region", "Year", "Month"))
-df_control <- merge(df_control, df_income, by = c("region", "Year"))
-df_control <- merge(df_control, df_unemployability, by = c("region", "Year", "Month"))
-
-df_control <- df_control %>% mutate(region = case_when(region == "British Columbia" ~ "BC",
-                                                       region == "Ontario" ~ "ON",
-                                                       region == "Quebec" ~ "QC"))
-
-df_footfall <- df_footfall %>% select(Date, visits_by_day, region, postal_code) %>% rename(date = Date)
-data <- merge(df_footfall, df_weather, by = c("postal_code", "date"))
-data <- data %>% separate(date, c("Year", "Month", "Day"))
-data <- merge(data, df_control, by = c("region", "Year", "Month"), all.x = TRUE) #data is the final data for modelling
-
-
-data$date = str_c(data$Day,"-",data$Month,"-",data$Year)
-data=data %>% relocate(date,.before=visits_by_day)
-my_data=data[,6:18]
-my_data$postal_code=data$postal_code
-my_data <- my_data %>% replace_na(list(spd_max_gust=0))
-```
-#pre-holday, post holiday, day of the week, long weekend
-### EDA
-
-
-### Modelling
-```{r}
-#1. panel regression for footfall
+library(ggcorrplot)
 library(plm)
-base_model_random <- plm(visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + unemployability, data = my_data, index = c("postal_code", "date"), model = "within")
-summary(base_model_random)
+library(car)
+
+retail_monthly = read.csv("Data/monthlyRetailSales.csv")
+weather_monthly = read.csv("Data/monthlyWeather.csv")
+
+retail_monthly <- retail_monthly %>% group_by(date) %>% summarize(British.Columbia=sum(British.Columbia),
+                                                                    Ontario=sum(Ontario),
+                                                                    Quebec=sum(Quebec))
+retail_monthly <- retail_monthly %>% pivot_longer(!date, names_to = "prov", values_to = "sales")
+retail_monthly <- retail_monthly %>% mutate(prov = case_when(prov == "British.Columbia" ~ "BC",
+                                                             prov == "Ontario" ~ "ON",
+                                                             prov == "Quebec" ~ "QC"))
+retail_monthly <- retail_monthly %>% arrange(prov, date)
+
+data_monthly <- merge(retail_monthly, weather_monthly, by = c("date", "prov"))
+data_monthly$month <- substr(data_monthly$date,6,8)
+
+
+cpi <- read_excel("Data/controlVariablesMonthly.xlsx", sheet="cpiIndex")
+disposable_income <- read_excel("Data/controlVariablesMonthly.xlsx", sheet="disposableIncome")
+unemployment_rate <- read_excel("Data/controlVariablesMonthly.xlsx", sheet="unemploymentRate")
+consumer_confidence <- read_excel("Data/controlVariablesMonthly.xlsx", sheet="consumerConfidence")
+
+control_data <- merge(cpi, consumer_confidence, by=c("date","prov"))
+control_data <- merge(control_data, unemployment_rate, by=c("date","prov"))
+control_data$year <- substr(control_data$date,1,4)
+control_data <- merge(control_data, disposable_income, by=c("year","prov"), all.x=TRUE)
+
+data_monthly <- merge(data_monthly, control_data, by=c("date","prov")) %>%
+  select(date, year, month, prov, sales, max_temp, mean_temp, min_temp, spd_max_gust, total_precip, total_rain, total_snow, cpi_index, disposable_income, unemployment_rate, consumer_confidence) %>% arrange(prov,date)
+```
+## EDA: Retail Monthly
+```{r}
+#Correlation plot
+corr<- round(cor(data_monthly[5:17]), 3)
+ggcorrplot(corr)
+```
+```{r}
+# Boxplot of sales
+boxplot(sales~prov,
+        data=data_monthly,
+        xlab="Provinces", #adding labels
+        ylab="Retail Sale")
+```
+```{r}
+#Scatter plot of sales and total_snow
+scatterplot(sales ~ total_snow, main="sales vs total_snow",
+   xlab="Snowfall ", ylab="RetailSales ", data=data_monthly, pch=19)
+```
+```{r}
+#Scatterplot of total_rain and sales
+scatterplot(sales ~ total_rain, main="sales vs total_rain",
+   xlab="Rainfall", ylab="RetailSales ", data=data_monthly, pch=19)
+```
+```{r}
+# Histogram of sales
+hist(data_monthly$sales,
+     main="Retail Sale")
+```
+```{r}
+hist(log(data_monthly$sales+1),
+     main="Retail Sale")
+```
+Log transformation is thereby able to convert retail sales to closely resemble normal distribution. And we will be using log transformed y value in our models. 
+```{r}
+data_monthly$sales = log(data_monthly$sales+1)
+
+#Since all predictors are in different scales, we are standardizing it to make it more interpretable.
+
+data_monthly <- data_monthly %>% mutate_at(c("max_temp", "mean_temp", "min_temp", "spd_max_gust", "total_precip", "total_rain", "total_snow", "cpi_index", "disposable_income", "unemployment_rate", "consumer_confidence"), ~(scale(.) %>% as.vector))
 ```
 
 ```{r}
-#handling #NA
-data <- data %>% replace_na(list(spd_max_gust=0))
-data <- data %>% replace_na(list(snow_grnd = 0))
-data <- data %>% replace_na(list(total_rain = 0))
-data <- data %>% replace_na(list(total_snow = 0))
-data <- data %>% replace_na(list(total_precip = 0))
-data <- data %>% replace_na(list(visits_by_day = 0))
+#IQR
+IQR(data_monthly$sales)
 
-#Taking monthly data (footfall count, weather, and control variables)
-my_data <- data %>% group_by(postal_code, Year, Month) %>% summarize(visits_by_day = sum(visits_by_day),
-                                                                     mean_temp = mean(mean_temp),
-                                                                     ConsumerConfidence = mean(ConsumerConfidence),
-                                                                     cpi = mean(cpi),
-                                                                     disposableIncome = mean(disposableIncome),
-                                                                     unemployability = mean(unemployability),
-                                                                     total_snow = sum(total_snow),
-                                                                     total_rain = sum(total_rain),
-                                                                     total_precip = sum(total_precip),
-                                                                     snow_grnd = mean(snow_grnd),
-                                                                     spd_max_gust = mean(spd_max_gust)
-                                                                     )
-
-#2. Step wise regression for monthly aggregated panel data -footfall
-lm.full = lm(visits_by_day ~ ., data = my_data[,4:13])
-lm.step = step(lm.full, direction = "backward")
-summary(lm.step)
-```
-
-```{r}
-#3. Step wise regression for monthly retail sales data - statistics Canada
-test_data <- read.csv("Data/testing.csv")
-lm.full = lm(value ~ ., data = test_data[,3:10])
-lm.step = step(lm.full, direction = "backward")
-summary(lm.step)
+summary(data_monthly)
 ```
 ```{r}
-#4. plm model for the retail sales data
-test_model_random <- plm(value ~ mean_temp + total_rain + total_snow, data = test_data, index = c("prov","Date"), model = "within")
-summary(test_model_random)
+#Outlier Correction
+for (col in colnames(data_monthly[3:10])){
+  if data_
+}
 ```
 ```{r}
-#OLS model adjusting for some multicollinear factors
-test_model <- lm(value ~ max_temp + total_rain + total_snow , data=test_data)
-summary(test_model)
+#Model1: Pooled OLS model for the monthly data
+
+base_model = lm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate, data=data_monthly)
+summary(base_model)
+vif(base_model)
+
+x = lm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust,
+       data = data_monthly)
+summary(x)
+
+
+m2 = plm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust, index=c("prov","date"), data=data_monthly, model="within")
+summary(m2)
+
+m3 = plm(sales ~ cpi_index + unemployment_rate + total_snow + total_rain + mean_temp, index=c("prov","date"), data=data_monthly, model="within")
+summary(m3)
+
+m4 = plm(sales ~ total_snow + total_rain + mean_temp, index=c("prov","date"), data=data_monthly, model="within")
+summary(m4)
+
+m5 = 
+
+
+lm.full = lm(sales ~ ., data = data_monthly[5:16])
+lm1 = step(lm.full, direction = "backward")
+summary(lm1)
+
+vif(lm1)
+
+x1 = lm(sales ~ total_precip + total_snow + cpi_index + disposable_income + unemployment_rate, data = data_monthly)
+summary(x1)
+vif(x1)
+
+#### BEST MODEL FOR US I THINK 
+t2 = lm(sales ~ I(max_temp^2) + total_rain + total_snow + unemployment_rate, data =data_monthly)
+summary(t2)
+vif(t2)
+####
+
+plot(density(resid(x1)))
+plot(fitted(t2), resid(x1))
+
+```
+
+#Using PCA
+```{r}
+library("FactoMineR")
+library("factoextra")
+res.pca <- PCA(data_monthly[5:16],  graph = FALSE)
+get_eig(res.pca)
+
+t2 = lm(data_monthly$sales ~ res.pca[4]$svd$U[,1:4])
+summary(t2)
+
+plot(density(resid(t2)))
+plot(fitted(t2), resid(t2))
+
+m1 = lm(sales ~ spd_max_gust, data=data_monthly)
+summary(m1)
+
+m2 = lm(sales ~ total_rain, data=data_monthly)
+summary(m2)
+
+m3 = lm(sales ~ total_snow, data=data_monthly)
+summary(m3)
+
+m4 = lm(sales ~ total_snow + total_rain + spd_max_gust, data=data_monthly)
+summary(m4)
+
+m5 = lm(sales ~ total_snow + total_rain  , data=data_monthly)
+summary(m5)
+
+
+vif(m5)
+
+  #Model2: LSDV for the monthly data - add dummy variables for prov
+
+lm.full = lm(sales ~ ., data = data_monthly[2:10])
+lm2 = step(lm.full, direction = "backward")
+summary(lm2)
+
+t1 = lm(sales ~ spd_max_gust + total_rain + total_snow, data=data_monthly)
+summary(t1)
+vif(t1)
+
+vif(lm2)
+#Model3: 
+lm3 = lm(sales ~ prov + mean_temp + spd_max_gust + total_precip + total_rain, data = data_monthly)
+summary(lm3)
+
+#Model4:
+lm4 = lm(sales ~ prov + total_snow + spd_max_gust + total_precip + total_rain, data = data_monthly)
+summary(lm4)
+
+#Model5:
+plm1 = plm(sales ~ total_snow + spd_max_gust + total_rain + month, data = data_monthly,
+           index=c("prov","date"), model = "pooling")
+summary(plm1)
+
+plm2 = plm(sales ~ total_snow + spd_max_gust + total_rain, data = data_monthly,
+           index=c("prov","date"), model = "random", random.method = "amemiya")
+summary(plm2)
+
+
+t1 = lm(sales ~ total_snow + spd_max_gust + total_rain , data=data_monthly)
+summary(t1)
+#Model6:
+plm2 = plm(sales ~ total_snow + spd_max_gust  + total_precip + total_rain + prov, data = data_monthly, model = "random")
+summary(plm2)
+
+phtest(plm1, plm2)
+
+
+
 ```
 ### Results
 
