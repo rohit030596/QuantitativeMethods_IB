@@ -4,7 +4,7 @@ author: "Karan, Rohit, Shubham"
 date: "14/03/2022"
 output: pdf_document
 ---
-### Introduction 
+### 1. Introduction 
 In this study, we have evaluated the impact of weather on retail sales in the major cities of Canada. We leveraged the data of 3 major retail players- Walmart, Costco and The Wholesale Food for analysing how the weather affects thei retail sales.  
 1.Role of Data 
 It is difficult to anticipate daily weather in advance but it has an immediate impact on daily business and sales.The use of weather forecasts to reduce demand uncertainty is restricted to retailers able to adjust their supply chain activities within two weeks. Retail sales being the downstream component of supply chain has 
@@ -22,13 +22,13 @@ Bad weather can have a negative psychological impact on shopper's willingness to
   1.1. Seasonality  
   1.2. Psychological Effect
 
-### Objective
+### 2. Objective
 The objective of this research paper is to analyze the impact of weather on retail sales in 3 major Canadian cities- Montreal, Toronto and Vancouver. 
 2. Footfall is our proxy variable.
 We are assessing the retail sales through the footfall data of stores which acts as our proxy variable. (Graham, 2017; Makkar, 2020). 
 
 3. Weather Variables -> snow, precipitation, sunlight
-### Literature Review
+### 3. Literature Review
 Weather impact on retail sales has been studied for more than 50 years now (Steele, 1951), but still there are only a handful of studies that provide sophisticated econometric analysis of weather effect. Starr-McCluer (2000) examined the effects of temperature on total US retail sales. #
 
 1. Past Articles -1.1 and 1.2
@@ -39,15 +39,13 @@ Weather impact on retail sales has been studied for more than 50 years now (Stee
     a. CPI b. unemployability c. disposable income d. consumer confidence 
 Talk about all sections of paper- what's done in which section.
 
-### Data Collection and preprocessing 
+### 4. Data Collection and preprocessing 
 safegraph
 statista.ca 
 Python/ R preprocessing
 
-# Data Preperation
-
-## Part 1: Analysis of Monthly Retail Sales of Quebec, Ontario, and British columbia for the clothing and fashion industry
-
+### 5. Data Preperation
+- Step1 : Import packages, data files, clean and combine
 ```{r, error=FALSE, include=FALSE}
 #Import Libraries
 library(tidyverse)
@@ -55,6 +53,10 @@ library(readxl)
 library(ggcorrplot)
 library(plm)
 library(car)
+library(naniar)
+library(VIM)
+library(FactoMineR)
+library(factoextra)
 
 retail_monthly = read.csv("Data/monthlyRetailSales.csv")
 weather_monthly = read.csv("Data/monthlyWeather.csv")
@@ -85,12 +87,32 @@ control_data <- merge(control_data, disposable_income, by=c("year","prov"), all.
 data_monthly <- merge(data_monthly, control_data, by=c("date","prov")) %>%
   select(date, year, month, prov, sales, max_temp, mean_temp, min_temp, spd_max_gust, total_precip, total_rain, total_snow, cpi_index, disposable_income, unemployment_rate, consumer_confidence) %>% arrange(prov,date)
 ```
-## EDA: Retail Monthly
+- Step2: Check for nulls in the dataframe
+```{r}
+sum(is.na(data_monthly))#No nulls present
+```
+- EDA: Retail Monthly
+- 1. Univariate Analysis
+```{r}
+# Histogram of sales
+hist(data_monthly$sales,
+     main="Retail Sale")
+```
+Retail Monthly Sales is right skewed.
+```{r}
+hist(log(data_monthly$sales+1),
+     main="Retail Sale")
+```
+Log transformation is thereby able to convert retail sales to closely resemble normal distribution. And we will be using log transformed y value in our models.
+
+- 2. Bivariate Analysis
+a) Correlation plot to study the linear relation of the numerical variables in the dataframe. From the correlation plot we can see that
 ```{r}
 #Correlation plot
-corr<- round(cor(data_monthly[5:17]), 3)
+corr<- round(cor(data_monthly[5:16]), 3)
 ggcorrplot(corr)
 ```
+b) From the boxplot below, we can see how retail sales are distributed across the provinces of Quebec, Ontario, and British Columbia. We can clearly see that ON has the highest sales, followed by QC and BC. Thus adding prov in predictive modelling can have a very siginficant impact in the model's performance.
 ```{r}
 # Boxplot of sales
 boxplot(sales~prov,
@@ -98,161 +120,148 @@ boxplot(sales~prov,
         xlab="Provinces", #adding labels
         ylab="Retail Sale")
 ```
+c) Our research is focused on studying the effect of weather condition on retail sales, so the following scatterplots will help us understand how relation of each of the weather variables on retail sales. 
 ```{r}
 #Scatter plot of sales and total_snow
 scatterplot(sales ~ total_snow, main="sales vs total_snow",
    xlab="Snowfall ", ylab="RetailSales ", data=data_monthly, pch=19)
 ```
+d) Snowfall occurs only in a few months - during the winter season, which explains why there are outliers in the above plot. To properly study the impact of snowfall on sales, it is pertinent that we examine only the winter season, but this significantly reduces the amount of data available. So our solution is to add another variable called "winter" to tell us if it is winter season or not......
+
+There is a very clear negative relation for total_rain and sales. Further backing up our hypothesis about the effect of rainfall on retail sales. 
 ```{r}
 #Scatterplot of total_rain and sales
 scatterplot(sales ~ total_rain, main="sales vs total_rain",
    xlab="Rainfall", ylab="RetailSales ", data=data_monthly, pch=19)
 ```
+e) Speed of gust is also having a negative relationship with sales. Outliers are present which makes it difficult to get a clear picture.
 ```{r}
-# Histogram of sales
-hist(data_monthly$sales,
-     main="Retail Sale")
-```
+#Scatterplot of spd_max_gust and sales
+scatterplot(sales ~ spd_max_gust, main="sales vs spd_max_gust",
+   xlab="Wind Speed", ylab="RetailSales ", data=data_monthly, pch=19)
+``` 
+f) Relationship between average temperature and sales is indifferentiable. So we suspect that it might not be a good predictor of retail sales.
 ```{r}
-hist(log(data_monthly$sales+1),
-     main="Retail Sale")
-```
-Log transformation is thereby able to convert retail sales to closely resemble normal distribution. And we will be using log transformed y value in our models. 
+#Scatterplot of mean_temp and sales
+scatterplot(sales ~ I(mean_temp), main="sales vs mean_temp",
+   xlab="Temperature", ylab="RetailSales ", data=data_monthly, pch=19)
+``` 
+Data quality issues can significantly hinder the predictive capability of any model (Garbage in, Garbage out). So, the next step will be to check the outliers in our data and handle them. 
 ```{r}
-data_monthly$sales = log(data_monthly$sales+1)
-
-#Since all predictors are in different scales, we are standardizing it to make it more interpretable.
-
-data_monthly <- data_monthly %>% mutate_at(c("max_temp", "mean_temp", "min_temp", "spd_max_gust", "total_precip", "total_rain", "total_snow", "cpi_index", "disposable_income", "unemployment_rate", "consumer_confidence"), ~(scale(.) %>% as.vector))
-```
-
-```{r}
-#IQR
-IQR(data_monthly$sales)
-
 summary(data_monthly)
 ```
+Some of the variables such as spd_max_gust, total_precip, total_rain, total_snow are having outliers. Outliers will be replaced with a suitable value using KNN imputation.
 ```{r}
-#Outlier Correction
-for (col in colnames(data_monthly[3:10])){
-  if data_
-}
+#data_monthly will be the original dataframe and any transformations will be made on df -> use df for modelling
+#Since all predictors are in different scales, we are standardizing it to make it more interpretable.
+
+df <- data_monthly %>% mutate_at(c("max_temp", "mean_temp", "min_temp", "spd_max_gust", "total_precip", "total_rain", "total_snow", "cpi_index", "disposable_income", "unemployment_rate", "consumer_confidence"), ~(scale(.) %>% as.vector))
+
+df$sales <- log(df$sales+1)
+
+df[6:16] <- replace_with_na_all(df[6:16], ~.x >3) #Treat values more than 3 (Standard values) as outliers
+df = kNN(df, k=6)[1:16] #kNN imputation
+
+#remove min_temp, max_temp, total_precip because high correlation with mean_temp and total_rain
+df <- df %>% select(!c(min_temp, max_temp, total_precip))
+
+summary(df)
 ```
+
+### 6. Modelling
+1. Linear Models
+a) Create a pooled OLS model using only control variables
 ```{r}
 #Model1: Pooled OLS model for the monthly data
+model_1 = lm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate, data=df)
+summary(model_1)
+vif(model_1)
+```
+b) Add weather factors to base model
+The impact of our control variables in predicting retail sales is very big, it diminishes the effect of weather variables. Therefore we need to reduce the number of control variables in the predictive model to study the impact of weather on retail sales.
 
-base_model = lm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate, data=data_monthly)
-summary(base_model)
-vif(base_model)
-
-x = lm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust,
-       data = data_monthly)
-summary(x)
-
-
-m2 = plm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust, index=c("prov","date"), data=data_monthly, model="within")
-summary(m2)
-
-m3 = plm(sales ~ cpi_index + unemployment_rate + total_snow + total_rain + mean_temp, index=c("prov","date"), data=data_monthly, model="within")
-summary(m3)
-
-m4 = plm(sales ~ total_snow + total_rain + mean_temp, index=c("prov","date"), data=data_monthly, model="within")
-summary(m4)
-
-m5 = 
-
-
-lm.full = lm(sales ~ ., data = data_monthly[5:16])
-lm1 = step(lm.full, direction = "backward")
-summary(lm1)
-
-vif(lm1)
-
-x1 = lm(sales ~ total_precip + total_snow + cpi_index + disposable_income + unemployment_rate, data = data_monthly)
-summary(x1)
-vif(x1)
-
-#### BEST MODEL FOR US I THINK 
-t2 = lm(sales ~ I(max_temp^2) + total_rain + total_snow + unemployment_rate, data =data_monthly)
-summary(t2)
-vif(t2)
-####
-
-plot(density(resid(x1)))
-plot(fitted(t2), resid(x1))
-
+Add each control variables seperately with predictor variables in models from lm1 to lm4
+lm0 - weather factors alone
+```{r}
+model_2 = lm(sales ~ consumer_confidence + cpi_index + disposable_income + unemployment_rate + total_snow + total_rain + mean_temp +
+               spd_max_gust, data = df)
+summary(model_2)
+vif(model_2)
+```
+c)lm0
+```{r}
+lm0 = lm(sales ~ total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+summary(lm0)
+vif(lm0)
 ```
 
-#Using PCA
+d)lm1 - weather + consumer_confidence
 ```{r}
-library("FactoMineR")
-library("factoextra")
+lm1 = lm(sales ~ consumer_confidence + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+summary(lm1)
+vif(lm1)
+```
+e)lm2 - weather + cpi_index
+```{r}
+lm2 = lm(sales ~ cpi_index + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+summary(lm2)
+vif(lm2)
+```
+f)lm3 - weather + disposable_income
+```{r}
+lm3 = lm(sales ~ disposable_income + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+summary(lm3)
+vif(lm3)
+```
+g)lm4 - weather + unemployment_rate
+```{r}
+lm4 = lm(sales ~ unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+summary(lm4)
+vif(lm4)
+```
+2. Panel Model :Since we have a panel data structure with data from 3 provinces of Canada, panel regression is run to study weather impact
+a) Fixed Effects
+```{r}
+model_fixed = plm(sales ~ unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust, index=c("prov","date"),
+                  data=df, model="within")
+summary(model_fixed)
+```
+b) Random Effects
+```{r}
+model_random = plm(sales ~ unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust, index=c("prov","date"),
+                   data=df, model="random", random.method = "amemiya")
+summary(model_random)
+```
+```{r}
+phtest(model_fixed, model_random) # random effects model is better
+```
+3. Stepwise regression on all predictors to find the best model (Optional)
+```{r}
+lm.full = lm(sales ~ ., data = df[5:13])
+lm_step = step(lm.full, direction = "backward")
+summary(lm_step)
+vif(lm_step)
+```
+4. Use PCA to reduce the features and find the best model (Optional)
+```{r}
 res.pca <- PCA(data_monthly[5:16],  graph = FALSE)
 get_eig(res.pca)
 
-t2 = lm(data_monthly$sales ~ res.pca[4]$svd$U[,1:4])
-summary(t2)
+pcr = lm(data_monthly$sales ~ res.pca[4]$svd$U[,1:4]) #4 principle components - 84% variance explained
+summary(pcr)
+```
+###7. Model analysis and Validation
+Comparing random effects model model_random and lm4 (unemployment_rate)
+```{r}
+plot(lm4, 1)
+plot(lm4, 2)
+plot(lm4, 3)
 
-plot(density(resid(t2)))
-plot(fitted(t2), resid(t2))
-
-m1 = lm(sales ~ spd_max_gust, data=data_monthly)
-summary(m1)
-
-m2 = lm(sales ~ total_rain, data=data_monthly)
-summary(m2)
-
-m3 = lm(sales ~ total_snow, data=data_monthly)
-summary(m3)
-
-m4 = lm(sales ~ total_snow + total_rain + spd_max_gust, data=data_monthly)
-summary(m4)
-
-m5 = lm(sales ~ total_snow + total_rain  , data=data_monthly)
-summary(m5)
-
-
-vif(m5)
-
-  #Model2: LSDV for the monthly data - add dummy variables for prov
-
-lm.full = lm(sales ~ ., data = data_monthly[2:10])
-lm2 = step(lm.full, direction = "backward")
-summary(lm2)
-
-t1 = lm(sales ~ spd_max_gust + total_rain + total_snow, data=data_monthly)
-summary(t1)
-vif(t1)
-
-vif(lm2)
-#Model3: 
-lm3 = lm(sales ~ prov + mean_temp + spd_max_gust + total_precip + total_rain, data = data_monthly)
-summary(lm3)
-
-#Model4:
-lm4 = lm(sales ~ prov + total_snow + spd_max_gust + total_precip + total_rain, data = data_monthly)
-summary(lm4)
-
-#Model5:
-plm1 = plm(sales ~ total_snow + spd_max_gust + total_rain + month, data = data_monthly,
-           index=c("prov","date"), model = "pooling")
-summary(plm1)
-
-plm2 = plm(sales ~ total_snow + spd_max_gust + total_rain, data = data_monthly,
-           index=c("prov","date"), model = "random", random.method = "amemiya")
-summary(plm2)
-
-
-t1 = lm(sales ~ total_snow + spd_max_gust + total_rain , data=data_monthly)
-summary(t1)
-#Model6:
-plm2 = plm(sales ~ total_snow + spd_max_gust  + total_precip + total_rain + prov, data = data_monthly, model = "random")
-summary(plm2)
-
-phtest(plm1, plm2)
-
-
-
+plot(density(resid(lm4)), col="black")
+```
+```{r}
+plot(density(resid(model_random)), col="black")
+#plot(fitted(model_random), resid(model_random))
 ```
 ### Results
 
