@@ -165,6 +165,9 @@ df = kNN(df, k=6)[1:16] #kNN imputation
 #remove min_temp, max_temp, total_precip because high correlation with mean_temp and total_rain
 df <- df %>% select(!c(min_temp, max_temp, total_precip))
 
+df <- df %>% mutate(winter = case_when(month == 1 | month == 2| month ==3 |month==12 ~ 1,
+                                       TRUE ~ 0))
+                                       
 summary(df)
 ```
 
@@ -177,6 +180,7 @@ model_1 = lm(sales ~ consumer_confidence + cpi_index + disposable_income + unemp
 summary(model_1)
 vif(model_1)
 ```
+
 b) Add weather factors to base model
 The impact of our control variables in predicting retail sales is very big, it diminishes the effect of weather variables. Therefore we need to reduce the number of control variables in the predictive model to study the impact of weather on retail sales.
 
@@ -197,25 +201,29 @@ vif(lm0)
 
 d)lm1 - weather + consumer_confidence
 ```{r}
-lm1 = lm(sales ~ consumer_confidence + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+lm1 = lm(sales ~ consumer_confidence + total_snow + total_rain + mean_temp + spd_max_gust +
+           winter + winter*total_rain + winter*total_snow + winter*spd_max_gust + I(mean_temp^2), data=df)
 summary(lm1)
 vif(lm1)
 ```
 e)lm2 - weather + cpi_index
 ```{r}
-lm2 = lm(sales ~ cpi_index + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+lm2 = lm(sales ~ cpi_index + total_snow + total_rain + mean_temp + spd_max_gust +
+           winter + winter*total_rain + winter*total_snow + winter*spd_max_gust + I(mean_temp^2), data=df)
 summary(lm2)
 vif(lm2)
 ```
 f)lm3 - weather + disposable_income
 ```{r}
-lm3 = lm(sales ~ disposable_income + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+lm3 = lm(sales ~ disposable_income + total_snow + total_rain + mean_temp + spd_max_gust +
+           winter + winter*total_rain + winter*total_snow + winter*spd_max_gust + I(mean_temp^2), data=df)
 summary(lm3)
 vif(lm3)
 ```
 g)lm4 - weather + unemployment_rate
 ```{r}
-lm4 = lm(sales ~ unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust, data=df)
+lm4 = lm(sales ~ unemployment_rate + total_snow + total_rain + mean_temp + spd_max_gust +
+           winter + winter*total_rain + winter*total_snow + winter*spd_max_gust + I(mean_temp^2), data=df)
 summary(lm4)
 vif(lm4)
 ```
@@ -249,6 +257,13 @@ get_eig(res.pca)
 
 pcr = lm(data_monthly$sales ~ res.pca[4]$svd$U[,1:4]) #4 principle components - 84% variance explained
 summary(pcr)
+```
+5. Add Winter and its interaction effect with snowfall, rainfall, and spd_max_gust
+```{r}
+winter_1 = lm(sales ~ unemployment_rate + total_rain + total_snow + spd_max_gust + mean_temp + 
+                winter + winter*total_rain + winter*total_snow + winter*spd_max_gust + I(mean_temp^2), data=df)
+summary(winter_1)
+vif(winter_1)
 ```
 ###7. Model analysis and Validation
 Comparing random effects model model_random and lm4 (unemployment_rate)
