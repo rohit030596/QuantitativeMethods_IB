@@ -2,7 +2,7 @@
 title: "Project-QM"
 author: "Karan, Rohit, Shubham"
 date: "14/03/2022"
-output: pdf_document
+output: beamer_presentation
 ---
 ### Introduction 
 In this study, we have evaluated the impact of weather on retail sales in the major cities of Canada. We leveraged the data of 3 major retail players- Walmart, Costco and The Wholesale Food for analysing how the weather affects thei retail sales.  
@@ -45,10 +45,39 @@ statista.ca
 Python/ R preprocessing
 
 # Data Preperation
+
+## Part 1: Analysis of Monthly Retail Sales of Quebec, Ontario, and British columbia for the clothing and fashion industry
+
 ```{r, error=FALSE, include=FALSE}
 #Import Libraries
 library(tidyverse)
 library(readxl)
+
+retail_monthly = read.csv("Data/monthlyRetailSales.csv")
+weather_monthly = read.csv("Data/monthlyWeather.csv")
+
+retail_monthly <- retail_monthly %>% group_by(date) %>% summarize(British.Columbia=sum(British.Columbia),
+                                                                    Ontario=sum(Ontario),
+                                                                    Quebec=sum(Quebec))
+retail_monthly <- retail_monthly %>% pivot_longer(!date, names_to = "prov", values_to = "sales")
+retail_monthly <- retail_monthly %>% mutate(prov = case_when(prov == "British.Columbia" ~ "BC",
+                                                             prov == "Ontario" ~ "ON",
+                                                             prov == "Quebec" ~ "QC"))
+retail_monthly <- retail_monthly %>% arrange(prov, date)
+
+data_monthly <- merge(retail_monthly, weather_monthly, by = c("date", "prov"))
+
+#Model1: Pooled OLS model for the monthly data
+
+lm.full = lm(sales ~ ., data = data_monthly[3:9])
+lm.step_monthly1 = step(lm.full, direction = "backward")
+summary(lm.step_monthly1)
+
+#Model2: LSDV for the monthly data - add dummy variables for prov
+
+lm.full = lm(sales ~ ., data = data_monthly[3:9])
+lm.step_monthly1 = step(lm.full, direction = "backward")
+summary(lm.step_monthly1)
 
 df_cpi = read_excel("Data/controlVariables.xlsx", sheet= "CPI Index") #CPI Index
 df_unemployability = read_excel("Data/controlVariables.xlsx", sheet= "UnemploymentRate") #Unemployability
@@ -106,6 +135,10 @@ library(plm)
 base_model_random <- plm(visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + unemployability, data = my_data, index = c("postal_code", "date"), model = "within")
 summary(base_model_random)
 ```
+```{r}
+base_model_random <- plm(visits_by_day ~ ConsumerConfidence + cpi + disposableIncome + unemployability +as.factor(date) , data = my_data, index = c("postal_code", "date"), model = "random")
+summary(base_model_random)
+```
 
 ```{r}
 #handling #NA
@@ -139,7 +172,7 @@ summary(lm.step)
 ```{r}
 #3. Step wise regression for monthly retail sales data - statistics Canada
 test_data <- read.csv("Data/testing.csv")
-lm.full = lm(value ~ ., data = test_data[,3:10])
+lm.full = lm(value ~ ., data = test_data[2:10])
 lm.step = step(lm.full, direction = "backward")
 summary(lm.step)
 ```
