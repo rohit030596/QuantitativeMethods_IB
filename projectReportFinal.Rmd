@@ -46,7 +46,7 @@ Severe weather (such as rain, snow, haze, and other extreme weather) may lead to
 
 ### 3. Exploratory Data Analysis
 
-- Methodology
+#### Methodology
 
 The main goal of our project is to study the impact of weather on consumer retail sales by taking the example of Clothing and Footwear industry in Canada. We have limited the scope of the analysis by considering only the three biggest cities in Canada and consider them as a proxy to explain the consumer behavior for all of Canada. Only data from 2009 to 2019 are considered in our analysis. Because retail sales after 2019 will be significantly affected by covid and this might mask the impact of weather which we wanted to highlight in our project. 
 
