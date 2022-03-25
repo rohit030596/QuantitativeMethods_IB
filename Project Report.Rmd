@@ -59,6 +59,8 @@ library(FactoMineR)
 library(factoextra)
 library(knitr)
 library(kableExtra)
+library(sjPlot)
+
 
 retail_monthly = read.csv("Data/monthlyRetailSales.csv")
 weather_monthly = read.csv("Data/monthlyWeather.csv")
@@ -280,6 +282,18 @@ plot(density(resid(lm4)), col="black")
 ```{r}
 plot(density(resid(model_random)), col="black")
 #plot(fitted(model_random), resid(model_random))
+```
+
+## Table Comparison of results
+```{r}
+tab_model(
+  lm1,lm2,lm3,lm4, 
+  dv.labels = c("Model 1", "Model 2","Model 3","Model 4"),
+  string.pred = "Coeffcient",
+  string.p = "P-Value",
+  p.style = "stars",
+  show.ci = FALSE
+)
 ```
 ### Results
 
