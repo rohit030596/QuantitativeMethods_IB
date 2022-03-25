@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.3.25)  25 MAR 2022 22:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.3.25)  25 MAR 2022 22:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -477,15 +477,15 @@ LaTeX Info: Redefining \nameref on input line 85.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
-* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* h-part:(L,W,R)=(72.2698pt, 469.75539pt, 72.2698pt)
+* v-part:(T,H,B)=(72.2698pt, 650.43037pt, 72.2698pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
-* \textwidth=469.75502pt
-* \textheight=650.43001pt
-* \oddsidemargin=0.0pt
-* \evensidemargin=0.0pt
-* \topmargin=-37.0pt
+* \textwidth=469.75539pt
+* \textheight=650.43037pt
+* \oddsidemargin=-0.00018pt
+* \evensidemargin=-0.00018pt
+* \topmargin=-37.00018pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=10.0pt
@@ -561,7 +561,7 @@ File: projectReportFinal_files/figure-latex/Figure1-2.pdf Graphic file (type pdf
 Package pdftex.def Info: projectReportFinal_files/figure-latex/Figure1-2.pdf  used on input line 269.
 (pdftex.def)             Requested size: 234.87672pt x 155.31291pt.
 
-Overfull \hbox (2.22609pt too wide) in paragraph at lines 269--269
+Overfull \hbox (2.22572pt too wide) in paragraph at lines 269--269
 [][] []
  []
 
@@ -605,17 +605,17 @@ File: projectReportFinal_files/figure-latex/Figure 4-4.pdf Graphic file (type pd
 Package pdftex.def Info: projectReportFinal_files/figure-latex/Figure 4-4.pdf  used on input line 343.
 (pdftex.def)             Requested size: 234.87526pt x 160.81549pt.
 
-Overfull \hbox (2.21828pt too wide) in paragraph at lines 343--343
+Overfull \hbox (2.21791pt too wide) in paragraph at lines 343--343
 [][] []
  []
 
 
-Overfull \hbox (2.21771pt too wide) in paragraph at lines 343--343
+Overfull \hbox (2.21735pt too wide) in paragraph at lines 343--343
 [] []
  []
 
 
-Overfull \hbox (23.60547pt too wide) in paragraph at lines 357--376
+Overfull \hbox (23.6051pt too wide) in paragraph at lines 357--376
  [][] 
  []
 
@@ -632,7 +632,7 @@ l.377
                                                   \__shipout_drop_firstpage_...
 l.377 
        <./projectReportFinal_files/figure-latex/Figure 4-1.pdf> <./projectReportFinal_files/figure-latex/Figure 4-2.pdf> <./projectReportFinal_files/figure-latex/Figure 4-3.pdf> <./projectReportFinal_files/figure-latex/Figure 4-4.pdf>]
-Overfull \hbox (48.88486pt too wide) in paragraph at lines 413--445
+Overfull \hbox (48.88449pt too wide) in paragraph at lines 413--445
  [][] 
  []
 
@@ -662,12 +662,12 @@ File: projectReportFinal_files/figure-latex/Figure 5-4.pdf Graphic file (type pd
 Package pdftex.def Info: projectReportFinal_files/figure-latex/Figure 5-4.pdf  used on input line 452.
 (pdftex.def)             Requested size: 234.87793pt x 153.88554pt.
 
-Overfull \hbox (2.22078pt too wide) in paragraph at lines 452--452
+Overfull \hbox (2.22041pt too wide) in paragraph at lines 452--452
 [][] []
  []
 
 
-Overfull \hbox (2.22084pt too wide) in paragraph at lines 452--452
+Overfull \hbox (2.22047pt too wide) in paragraph at lines 452--452
 [] []
  []
 
@@ -689,13 +689,13 @@ Package rerunfilecheck Info: File `projectReportFinal.out' has not changed.
 Here is how much of TeX's memory you used:
  12308 strings out of 480236
  195650 string characters out of 5895451
- 498160 words of memory out of 5000000
+ 498223 words of memory out of 5000000
  29978 multiletter control sequences out of 15000+600000
  519278 words of font info for 69 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  60i,12n,63p,507b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on projectReportFinal.pdf (9 pages, 436317 bytes).
+Output written on projectReportFinal.pdf (9 pages, 436325 bytes).
 PDF statistics:
  297 PDF objects out of 1000 (max. 8388607)
  224 compressed objects within 3 object streams

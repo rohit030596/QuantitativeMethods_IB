@@ -3,6 +3,7 @@ title: "Impact of Weather on Retail Sales in Canada: Clothing and Footwear Indus
 author: "Karan Joseph, Rohit Deshmukh,and Shubham Sharma"
 date: '2022-03-25'
 output: pdf_document
+geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 toc: true
 theme: united
 fig_caption: yes
