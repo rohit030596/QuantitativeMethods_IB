@@ -3,6 +3,7 @@ library(tidyverse)
 library(readxl)
 library(ggcorrplot)
 library(plm)
+library(stargazer)
 library(car)
 library(naniar)
 library(VIM)
@@ -42,6 +43,7 @@ control_data <- merge(control_data, disposable_income, by=c("year","prov"), all.
 data_monthly <- merge(data_monthly, control_data, by=c("date","prov")) %>%
   select(date, year, month, prov, sales, max_temp, mean_temp, min_temp, spd_max_gust, total_precip, total_rain, total_snow, cpi_index, disposable_income, unemployment_rate, consumer_confidence) %>% arrange(prov,date)
 
+corr<- round(cor(data_monthly[5:16]), 3)
 
 df <- data_monthly %>% mutate_at(c("max_temp", "mean_temp", "min_temp", "spd_max_gust", "total_precip", "total_rain", "total_snow", "cpi_index", "disposable_income", "unemployment_rate", "consumer_confidence"), ~(scale(.) %>% as.vector))
 
