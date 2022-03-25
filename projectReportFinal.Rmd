@@ -137,6 +137,13 @@ header=FALSE)
 
 ## 5. Results and implications 
 
+```{r Figure 5, echo=FALSE, fig.cap="Model Validation", fig.show="hold", out.width="50%"}
+plot(lm4, 1)
+plot(lm4, 2)
+plot(lm4, 3)
+plot(density(resid(lm4)), col="black")
+```
+
 ## 6. Conclusion
 
 In this paper, we empirically studied the effect of rainfall, snowfall, temperature, and gust on the sales of the Clothing and Footwear industry in Canada. We conducted the study at a monthly level and considered the sales of the Ontario, Quebec, and British Columbia to be a proxy for sales across Canada. We were able to establish a clear relation to weather effects and sales which is in line with the literature on physiology and psychology. Harsh weather in general has an overall negative effect on sales and this may be due to both its physiological limitations and psychological implications. Since the weather information was collected at an aggregated level, we were not able to capture the impact of the sudden onset of inclement weather; for example, snowstorms, freezing rain, etc. Also, we are not considering sales at different retail channels. Since most retail stores have adopted or are adopting omnichannel strategies, it will be especially important to study the exact impact weather has on individual channels.  

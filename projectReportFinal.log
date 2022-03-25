@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.3.25)  25 MAR 2022 22:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2022.3.25)  25 MAR 2022 22:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -640,11 +640,46 @@ Overfull \hbox (48.88486pt too wide) in paragraph at lines 413--445
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.446 
-      ] [8pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplicate ignored
+      ]
+<projectReportFinal_files/figure-latex/Figure 5-1.pdf, id=181, 464.73625pt x 282.05376pt>
+File: projectReportFinal_files/figure-latex/Figure 5-1.pdf Graphic file (type pdf)
+<use projectReportFinal_files/figure-latex/Figure 5-1.pdf>
+Package pdftex.def Info: projectReportFinal_files/figure-latex/Figure 5-1.pdf  used on input line 452.
+(pdftex.def)             Requested size: 234.87787pt x 142.55006pt.
+<projectReportFinal_files/figure-latex/Figure 5-2.pdf, id=182, 468.75125pt x 282.05376pt>
+File: projectReportFinal_files/figure-latex/Figure 5-2.pdf Graphic file (type pdf)
+<use projectReportFinal_files/figure-latex/Figure 5-2.pdf>
+Package pdftex.def Info: projectReportFinal_files/figure-latex/Figure 5-2.pdf  used on input line 452.
+(pdftex.def)             Requested size: 234.87572pt x 141.32779pt.
+<projectReportFinal_files/figure-latex/Figure 5-3.pdf, id=183, 468.75125pt x 282.05376pt>
+File: projectReportFinal_files/figure-latex/Figure 5-3.pdf Graphic file (type pdf)
+<use projectReportFinal_files/figure-latex/Figure 5-3.pdf>
+Package pdftex.def Info: projectReportFinal_files/figure-latex/Figure 5-3.pdf  used on input line 452.
+(pdftex.def)             Requested size: 234.87572pt x 141.32779pt.
+<projectReportFinal_files/figure-latex/Figure 5-4.pdf, id=184, 436.63126pt x 286.06876pt>
+File: projectReportFinal_files/figure-latex/Figure 5-4.pdf Graphic file (type pdf)
+<use projectReportFinal_files/figure-latex/Figure 5-4.pdf>
+Package pdftex.def Info: projectReportFinal_files/figure-latex/Figure 5-4.pdf  used on input line 452.
+(pdftex.def)             Requested size: 234.87793pt x 153.88554pt.
+
+Overfull \hbox (2.22078pt too wide) in paragraph at lines 452--452
+[][] []
+ []
+
+
+Overfull \hbox (2.22084pt too wide) in paragraph at lines 452--452
+[] []
+ []
+
+[8pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.484 \end{document}
-                    ] (./projectReportFinal.aux)
+l.488 \end{document}
+                    ] [9pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.488 \end{document}
+                     <./projectReportFinal_files/figure-latex/Figure 5-1.pdf> <./projectReportFinal_files/figure-latex/Figure 5-2.pdf> <./projectReportFinal_files/figure-latex/Figure 5-3.pdf> <./projectReportFinal_files/figure-latex/Figure 5-4.pdf>] (./projectReportFinal.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -652,18 +687,18 @@ Package rerunfilecheck Info: File `projectReportFinal.out' has not changed.
 (rerunfilecheck)             Checksum: 01A84460478AD05EF33CF3E5923B7E99;1395.
  ) 
 Here is how much of TeX's memory you used:
- 12269 strings out of 480236
- 193658 string characters out of 5895451
- 498122 words of memory out of 5000000
- 29945 multiletter control sequences out of 15000+600000
+ 12308 strings out of 480236
+ 195650 string characters out of 5895451
+ 498160 words of memory out of 5000000
+ 29978 multiletter control sequences out of 15000+600000
  519278 words of font info for 69 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  60i,12n,63p,507b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/cloud/home/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></cloud/home/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on projectReportFinal.pdf (8 pages, 341380 bytes).
+Output written on projectReportFinal.pdf (9 pages, 436317 bytes).
 PDF statistics:
- 258 PDF objects out of 1000 (max. 8388607)
- 199 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
- 121 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 297 PDF objects out of 1000 (max. 8388607)
+ 224 compressed objects within 3 object streams
+ 39 named destinations out of 1000 (max. 500000)
+ 141 words of extra memory for PDF output out of 10000 (max. 10000000)
 
