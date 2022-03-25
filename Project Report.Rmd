@@ -57,6 +57,8 @@ library(naniar)
 library(VIM)
 library(FactoMineR)
 library(factoextra)
+library(knitr)
+library(kableExtra)
 
 retail_monthly = read.csv("Data/monthlyRetailSales.csv")
 weather_monthly = read.csv("Data/monthlyWeather.csv")
@@ -110,6 +112,7 @@ a) Correlation plot to study the linear relation of the numerical variables in t
 ```{r}
 #Correlation plot
 corr<- round(cor(data_monthly[5:16]), 3)
+kbl(corr, booktabs = T, longtable = T) %>% kable_styling(font_size = 14)
 ggcorrplot(corr)
 ```
 b) From the boxplot below, we can see how retail sales are distributed across the provinces of Quebec, Ontario, and British Columbia. We can clearly see that ON has the highest sales, followed by QC and BC. Thus adding prov in predictive modelling can have a very siginficant impact in the model's performance.
